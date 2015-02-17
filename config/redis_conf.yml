@@ -1,6 +1,2 @@
-development:
-  host: "localhost"
-  port: 6379
-production:
-  host: "localhost"
-  port: 6379
+development: redis://localhost:6382/
+production: redis://localhost:6379/

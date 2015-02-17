@@ -3,10 +3,10 @@ WebsocketRails.setup do |config|
   # Uncomment to override the default log level. The log level can be
   # any of the standard Logger log levels. By default it will mirror the
   # current Rails environment log level.
-  # config.log_level = :debug
+  config.log_level = :debug
 
   # Uncomment to change the default log file path.
-  # config.log_path = "#{Rails.root}/log/websocket_rails.log"
+  config.log_path = "#{Rails.root}/log/websocket_rails.log"
 
   # Set to true if you wish to log the internal websocket_rails events
   # such as the keepalive `websocket_rails.ping` event.
@@ -16,6 +16,7 @@ WebsocketRails.setup do |config|
   # Start the standalone server with rake websocket_rails:start_server
   # * Requires Redis
   config.standalone = true
+  config.standalone_port = 10081
 
   # Change to true to enable channel synchronization between
   # multiple server instances.
@@ -23,12 +24,13 @@ WebsocketRails.setup do |config|
   config.synchronize = true
 
   # Prevent Thin from daemonizing (default is true)
-  # config.daemonize = false
+  config.daemonize = !Rails.env.development?
 
   # Uncomment and edit to point to a different redis instance.
   # Will not be used unless standalone or synchronization mode
   # is enabled.
-  config.redis_options = $r_conf
+  redis_uri = URI.parse(Rails.configuration.redis_url)
+  config.redis_options = {host: redis_uri.host, port: redis_uri.port}
 
   # By default, all subscribers in to a channel will be removed
   # when that channel is made private. If you don't wish active
@@ -47,13 +49,13 @@ WebsocketRails.setup do |config|
   # will be called on the `current_user` object in your controller
   # if one exists. If `current_user` does not exist or does not
   # respond to the identifier, the key will default to `connection.id`
-  # config.user_identifier = :id
+  config.user_identifier = :id
 
   # Uncomment and change this option to override the class associated
   # with your `current_user` object. This class will be used when
   # synchronization is enabled and you trigger events from background
   # jobs using the WebsocketRails.users UserManager.
-  # config.user_class = User
+  config.user_class = User
 
   # Supporting HTTP streaming on Internet Explorer versions 8 & 9
   # requires CORS to be enabled for GET "/websocket" request.
