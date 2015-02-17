@@ -1,2 +1,5 @@
 You are signed in and under Devise security controll ))
-= link_to "Sign out", destroy_user_session_path, :method => :delete
+%div
+  = link_to "Sign out", destroy_user_session_path, :method => :delete
+%div
+  = link_to "Arena", game_battle_index_path

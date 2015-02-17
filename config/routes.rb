@@ -8,6 +8,7 @@ Rails.application.routes.draw do
 
   namespace :game do
     get 'dashboard/index' => 'dashboard#index'
+    get 'battle/index' => 'battle#index'
   end
 
   # See how all your routes lay out with "rake routes".
